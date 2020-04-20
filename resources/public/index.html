@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="bulma.min.css">
+    <script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="axios.min.js"></script>
+    <script type="text/javascript" src="all.min.js"></script>
+  </head>
+
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">
+          Hello World
+        </h1>
+
+
+        <div class="field is-grouped">
+          <div class="file">
+            <label class="file-label">
+              <input id="the-file-input" class="file-input" type="file" name="resume">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Choose a file…
+                </span>
+              </span>
+              <span class="file-name"></span>
+            </label>
+          </div>
+
+          <div class="column">
+            <button id="the-send-button" class="button is-primary">Launch a request</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <script>
+    $(document).ready(function () {
+      $("button.button").on("click", function (event) {
+        const fileInput = $("#the-file-input");
+        const sendButton = $("#the-send-button");
+        sendButton.addClass("is-loading");
+
+        console.log(fileInput['0'].files[0]);
+        const formData = new FormData();
+        formData.append("file", fileInput['0'].files[0]);
+
+        axios
+          .post("/upload-file", formData)
+          .then(res => {
+            console.log("Reponse pour le fichier:", res);
+            sendButton.removeClass("is-loading");
+          })
+        setTimeout(() => {
+          axios
+            .get("/yes")
+            .then(res => {
+              console.log("c'est la response:", res.data);
+              sendButton.removeClass("is-loading");
+            });
+        }, 2000);
+      });
+    });
+    </script>
+  </body>
+</html>
