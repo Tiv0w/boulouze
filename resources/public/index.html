@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="bulma.min.css">
     <script type="text/javascript" src="jquery-3.5.0.min.js"></script>
     <script type="text/javascript" src="axios.min.js"></script>
-    <script type="text/javascript" src="all.min.js"></script>
+    <script type="text/javascript" src="fontawesome.all.min.js"></script>
   </head>
 
   <body>
@@ -30,7 +30,7 @@
                   Choose a file…
                 </span>
               </span>
-              <span class="file-name"></span>
+              <span class="file-name">file.name…</span>
             </label>
           </div>
 
@@ -44,6 +44,12 @@
 
     <script>
     $(document).ready(function () {
+
+      $("#the-file-input").on("change", function (event) {
+        $("span.file-name").html(event.target.files[0].name);
+        $("span.file-name").removeClass("disabled");
+      });
+
       $("button.button").on("click", function (event) {
         const fileInput = $("#the-file-input");
         const sendButton = $("#the-send-button");
@@ -57,6 +63,10 @@
           .post("/upload-file", formData)
           .then(res => {
             console.log("Reponse pour le fichier:", res);
+            sendButton.removeClass("is-loading");
+          })
+          .catch(err => {
+            console.error("Grosse erreur:", res);
             sendButton.removeClass("is-loading");
           })
         setTimeout(() => {
