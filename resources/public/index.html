@@ -48,6 +48,9 @@
       $("#the-file-input").on("change", function (event) {
         $("span.file-name").html(event.target.files[0].name);
         $("span.file-name").removeClass("disabled");
+        const sendButton = $("#the-send-button");
+        sendButton.text("Launch a request");
+        sendButton.attr("disabled", false);
       });
 
       $("button.button").on("click", function (event) {
@@ -64,19 +67,15 @@
           .then(res => {
             console.log("Reponse pour le fichier:", res);
             sendButton.removeClass("is-loading");
+            if (res.status === 201) {
+              sendButton.text("Done!");
+              sendButton.attr("disabled", true);
+            }
           })
           .catch(err => {
-            console.error("Grosse erreur:", res);
+            console.error("Grosse erreur:", err);
             sendButton.removeClass("is-loading");
           })
-        setTimeout(() => {
-          axios
-            .get("/yes")
-            .then(res => {
-              console.log("c'est la response:", res.data);
-              sendButton.removeClass("is-loading");
-            });
-        }, 2000);
       });
     });
     </script>
