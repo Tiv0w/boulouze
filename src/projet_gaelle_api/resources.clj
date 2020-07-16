@@ -46,3 +46,8 @@
 ;;   :exists? (fn [ctx]
 ;;              (.exists (clojure.java.io/file "resources/favicon.ico")))
 ;;   :handle-ok (new java.io.File "resources/favicon.ico"))
+
+(defresource not-found []
+  :available-media-types ["text/html"]
+  :exists? false
+  :handle-not-found (clojure.java.io/file "resources/public/404.html"))

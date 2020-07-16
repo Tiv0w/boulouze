@@ -15,6 +15,7 @@
   (GET "/yes" [] (resources/yes-sir))
   (ANY "/upload-file" [] (resources/upload-file))
   ;; (GET "/favicon.ico" [] (favicon))
+  (ANY "*" [] (resources/not-found))
   )
 
 (def handler
