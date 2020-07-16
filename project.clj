@@ -11,6 +11,8 @@
                  [compojure "1.6.1"]
                  [ring/ring-core "1.8.0"]
                  [jumblerg/ring-cors "2.0.0"]
-                 [net.mikera/imagez "0.12.0"]]
+                 [net.mikera/imagez "0.12.0"]
+                 [org.xerial/sqlite-jdbc "3.32.3.1"]
+                 [funcool/clojure.jdbc "0.9.0"]]
   :ring {:handler projet-gaelle-api.core/handler}
   :repl-options {:init-ns projet-gaelle-api.core})

@@ -1,5 +1,6 @@
 (ns projet-gaelle-api.resources
   (:require [projet-gaelle-api.services.file :as file-service]
+            [projet-gaelle-api.services.db :as db-service]
             [liberator.core :refer [defresource]]))
 
 (defresource welcome []
@@ -36,9 +37,8 @@
                    (nil? fichier)
                    (= "undefined" fichier))))
   :post! (fn [ctx]
-           (let [fichier (get-in ctx [:request :params "file"])]
-             (println fichier)
-             (file-service/save-param-to-dir fichier "pics/")))
+           (let [file (get-in ctx [:request :params "file"])]
+             (file-service/save-param-to-dir file "pics/" true)))
   :handle-method-not-allowed "Method should be a POST")
 
 ;; (defresource favicon []

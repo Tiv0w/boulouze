@@ -1,5 +1,6 @@
 (ns projet-gaelle-api.services.file
-  (:require [clojure.java.io :as io]
+  (:require [projet-gaelle-api.services.db :as db-service]
+            [clojure.java.io :as io]
             [mikera.image.core :refer [load-image show]])
   (:import [org.apache.commons.io FileUtils]))
 
@@ -12,11 +13,15 @@
 
 (defn save-param-to-dir
   "From a ring request file param, save the tempfile to the indicated directory."
-  [file-param dir]
-  (let [in (get-in file-param [:tempfile])
-        out (io/file (str dir (get-in file-param [:filename])))]
-    ;; (-> my-file load-image show)
-    (FileUtils/copyFile
-     in
-     out
-     true)))
+  ([file-param dir]
+   (save-param-to-dir file-param dir nil))
+  ([file-param dir save-to-db]
+   (let [in (get-in file-param [:tempfile])
+         filename (get-in file-param [:filename])
+         out (io/file (str dir filename))]
+     ;; (-> my-file load-image show)
+     (FileUtils/copyFile in out true)
+     (when (true? save-to-db)
+       (db-service/execute ["INSERT INTO files (name, path) VALUES (?, ?)"
+                            filename
+                            (str "pics/" filename)])))))
