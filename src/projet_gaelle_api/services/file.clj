@@ -1,8 +1,10 @@
 (ns projet-gaelle-api.services.file
-  (:require [projet-gaelle-api.services.db :as db-service]
-            [clojure.java.io :as io]
-            [mikera.image.core :refer [load-image show]])
-  (:import [org.apache.commons.io FileUtils]))
+  (:require
+   [projet-gaelle-api.services.db :as db-service]
+   [clojure.java.io :as io]
+   [cheshire.core :as cheshire])
+  (:import
+   (org.apache.commons.io FileUtils)))
 
 (defn copy
   "Copy a file, preserving last modified time by default."
