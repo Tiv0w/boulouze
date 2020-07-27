@@ -27,3 +27,10 @@
        (db-service/execute ["INSERT INTO files (name, path) VALUES (?, ?)"
                             filename
                             (str "pics/" filename)])))))
+
+(defn list-files
+  "List all files saved in DB."
+  []
+  (let [result (db-service/fetch "SELECT * FROM files")]
+    (println result)
+    (cheshire/generate-string result)))

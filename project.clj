@@ -9,6 +9,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [liberator "0.15.3"]
                  [compojure "1.6.1"]
+                 [cheshire "5.10.0"]
                  [ring/ring-core "1.8.0"]
                  [jumblerg/ring-cors "2.0.0"]
                  [net.mikera/imagez "0.12.0"]

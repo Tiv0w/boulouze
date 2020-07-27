@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bibliothèque</title>
+    <link rel="stylesheet" href="bulma.min.css">
+    <script type="text/javascript" src="jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="axios.min.js"></script>
+    <script type="text/javascript" src="fontawesome.all.min.js"></script>
+  </head>
+
+  <body>
+    <section class="section">
+      <div class="container mb-6 pb-6">
+        <h1 class="title">
+          Bibliothèque
+        </h1>
+
+        <div class="list mt-5 columns is-8 is-mobile is-multiline is-centered is-vcentered">
+        </div>
+      </div>
+
+      <div class="container mt-6 pt-6">
+
+      </div>
+    </section>
+
+    <script>
+    function fetchList (cb) {
+      axios
+        .get("/list-files")
+        .then(res => {
+          cb(res.data);
+        })
+        .catch(err => {
+          console.error("Grosse erreur:", err);
+        });
+    }
+
+    function displayList (list) {
+      list.forEach((file, idx) => {
+        if (file.name.endsWith('.png') || file.name.endsWith('.jpg') || file.name.endsWith('.jpeg'))
+          fetchImage(file.path, file.name);
+      })
+      console.log(list);
+      // fetchImage(list[3].path);
+    }
+
+    function fetchImage (path, name) {
+      $(".list").append(`<figure class="box column is-one-third"><img src="/get-image?path=${path}" style="object-fit: contain; max-width: 300px"/><figcaption class="has-text-centered is-size-5 has-text-weight-bold">${name}</figcaption></figure>`);
+      axios
+        .get("/get-image", {
+          params: {
+            path
+          }
+        })
+        .then(res => {
+          console.log(res);
+        });
+    }
+
+    $(document).ready(function () {
+
+      fetchList(displayList);
+
+      $("#the-file-input").on("change", function (event) {
+        $("span.file-name").html(event.target.files[0].name);
+        $("span.file-name").removeClass("disabled");
+        const sendButton = $("#the-send-button");
+        sendButton.text("Launch a request");
+        sendButton.attr("disabled", false);
+      });
+
+      $("button.button").on("click", function (event) {
+        const fileInput = $("#the-file-input");
+        const sendButton = $("#the-send-button");
+        sendButton.addClass("is-loading");
+
+        console.log(fileInput['0'].files[0]);
+        const formData = new FormData();
+        formData.append("file", fileInput['0'].files[0]);
+
+        axios
+          .post("/upload-file", formData)
+          .then(res => {
+            console.log("Reponse pour le fichier:", res);
+            sendButton.removeClass("is-loading");
+            if (res.status === 201) {
+              sendButton.text("Done!");
+              sendButton.attr("disabled", true);
+            }
+          })
+          .catch(err => {
+            console.error("Grosse erreur:", err);
+            sendButton.removeClass("is-loading");
+          })
+      });
+    });
+    </script>
+  </body>
+</html>
