@@ -5,6 +5,8 @@
 (let [root-dir (java.lang.System/getProperty "user.dir")]
   (def dbspec (str "sqlite:" root-dir "/database/test.db")))
 
+;; TODO: add init functions for the db
+
 (defn execute
   "Execute a SQL statement on the DB."
   [statement]
