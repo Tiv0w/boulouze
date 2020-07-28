@@ -1,8 +1,7 @@
 (ns projet-gaelle-api.controllers
   (:require
-   [projet-gaelle-api.services.file :as file-service]
-   [projet-gaelle-api.services.db :as db-service]
-   [liberator.core :as liberator]))
+   [liberator.core :as liberator]
+   [projet-gaelle-api.services.file :as file-service]))
 
 (liberator/defresource welcome []
   :available-media-types ["text/html"]

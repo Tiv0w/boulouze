@@ -1,5 +1,6 @@
 (ns projet-gaelle-api.services.db
-  (:require [jdbc.core :as jdbc]))
+  (:require
+   [jdbc.core :as jdbc]))
 
 
 (def dbspec "sqlite:/home/bobmc/prog/multi-lang/projet-gaelle/projet-gaelle-api/database/test.db")

@@ -1,8 +1,8 @@
 (ns projet-gaelle-api.services.file
   (:require
-   [projet-gaelle-api.services.db :as db-service]
+   [cheshire.core :as cheshire]
    [clojure.java.io :as io]
-   [cheshire.core :as cheshire])
+   [projet-gaelle-api.services.db :as db-service])
   (:import
    (org.apache.commons.io FileUtils)))
 
