@@ -2,8 +2,8 @@
   (:require
    [jdbc.core :as jdbc]))
 
-
-(def dbspec "sqlite:/home/bobmc/prog/multi-lang/projet-gaelle/projet-gaelle-api/database/test.db")
+(let [root-dir (java.lang.System/getProperty "user.dir")]
+  (def dbspec (str "sqlite:" root-dir "/database/test.db")))
 
 (defn execute
   "Execute a SQL statement on the DB."
