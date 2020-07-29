@@ -1,4 +1,4 @@
-(ns projet-gaelle-api.middleware)
+(ns boulouze.middleware)
 
 (defn remove-trailing-slashes [handler]
   (fn [req]

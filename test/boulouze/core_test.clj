@@ -1,6 +1,6 @@
-(ns projet-gaelle-api.core-test
+(ns boulouze.core-test
   (:require [clojure.test :refer :all]
-            [projet-gaelle-api.core :refer :all]))
+            [boulouze.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

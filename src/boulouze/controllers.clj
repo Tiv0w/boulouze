@@ -1,7 +1,7 @@
-(ns projet-gaelle-api.controllers
+(ns boulouze.controllers
   (:require
    [liberator.core :as liberator]
-   [projet-gaelle-api.services.file :as file-service]))
+   [boulouze.services.file :as file-service]))
 
 (liberator/defresource welcome []
   :available-media-types ["text/html"]
