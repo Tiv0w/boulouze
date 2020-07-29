@@ -1,11 +1,36 @@
 (ns projet-gaelle-api.services.db
+  "This service interacts with the database."
   (:require
-   [jdbc.core :as jdbc]))
+   [clojure.java.io :as io]
+   [clojure.java.shell :as shell]
+   [jdbc.core :as jdbc]
+   [projet-gaelle-api.services.file :as file-service]))
 
-(let [root-dir (java.lang.System/getProperty "user.dir")]
-  (def dbspec (str "sqlite:" root-dir "/database/test.db")))
+(defn project-db-path
+  "Gets the path to the project's database."
+  ([]
+   (project-db-path "test.db"))
+  ([db-name]
+   (let [root-dir (file-service/project-root-dir)
+         root-end-with-slash? (.endsWith root-dir "/")
+         db-relative-path (str "database/" db-name)
+         db-relative-path-corrected (if root-end-with-slash?
+                                      db-relative-path
+                                      (str "/" db-relative-path))]
+     (str root-dir db-relative-path-corrected))))
+
+(defn get-dbspec
+  "Returns the dbspec string."
+  []
+  (str "sqlite:" (project-db-path)))
+
+(defn create-db-if-not-existing [db-path]
+  (when-not (.exists (io/file db-path))
+    (shell/sh "sqlite" db-path)))
 
 ;; TODO: add init functions for the db
+
+(def dbspec (get-dbspec))
 
 (defn execute
   "Execute a SQL statement on the DB."

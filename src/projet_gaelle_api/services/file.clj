@@ -1,10 +1,18 @@
 (ns projet-gaelle-api.services.file
+  "This service interacts with files and the filesystem.
+  It provides a cp-like command."
   (:require
    [cheshire.core :as cheshire]
    [clojure.java.io :as io]
    [projet-gaelle-api.services.db :as db-service])
   (:import
    (org.apache.commons.io FileUtils)))
+
+(defn project-root-dir
+  "Gets the root directory of the project.
+  (Returns the directory where the JVM was invoked.)"
+  []
+  (java.lang.System/getProperty "user.dir"))
 
 (defn copy
   "Copy a file, preserving last modified time by default."
