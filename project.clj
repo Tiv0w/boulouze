@@ -14,6 +14,6 @@
                  [net.mikera/imagez "0.12.0"]
                  [org.clojure/clojure "1.10.0"]
                  [org.xerial/sqlite-jdbc "3.32.3.1"]
-                 [ring/ring-core "1.8.0"]
+                 [ring/ring-core "1.8.0"]]
   :ring {:handler projet-gaelle-api.core/handler}
   :repl-options {:init-ns projet-gaelle-api.core})
