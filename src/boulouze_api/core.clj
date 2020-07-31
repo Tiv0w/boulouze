@@ -1,9 +1,9 @@
-(ns boulouze.core
+(ns boulouze-api.core
   (:require
    [compojure.core :refer [ANY defroutes GET]]
    [jumblerg.middleware.cors :refer [wrap-cors]]
-   [boulouze.controllers :as resources]
-   [boulouze.middleware :as middleware]
+   [boulouze-api.controllers :as resources]
+   [boulouze-api.middleware :as middleware]
    [ring.middleware.multipart-params :refer [wrap-multipart-params]]
    [ring.middleware.params :refer [wrap-params]]
    [ring.middleware.resource :refer [wrap-resource]]))

@@ -1,6 +1,6 @@
-(ns boulouze.core-test
+(ns boulouze-api.core-test
   (:require [clojure.test :refer :all]
-            [boulouze.core :refer :all]))
+            [boulouze-api.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

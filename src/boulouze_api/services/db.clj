@@ -1,10 +1,10 @@
-(ns boulouze.services.db
+(ns boulouze-api.services.db
   "This service interacts with the database."
   (:require
    [clojure.java.io :as io]
    [clojure.java.shell :as shell]
    [jdbc.core :as jdbc]
-   [boulouze.services.file :as file-service]))
+   [boulouze-api.services.file :as file-service]))
 
 (defn project-db-path
   "Gets the path to the project's database."

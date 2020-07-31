@@ -1,10 +1,10 @@
-(ns boulouze.services.file
+(ns boulouze-api.services.file
   "This service interacts with files and the filesystem.
   It provides a cp-like command."
   (:require
    [cheshire.core :as cheshire]
    [clojure.java.io :as io]
-   [boulouze.services.db :as db-service])
+   [boulouze-api.services.db :as db-service])
   (:import
    (org.apache.commons.io FileUtils)))
 

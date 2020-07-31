@@ -15,5 +15,5 @@
                  [org.clojure/clojure "1.10.0"]
                  [org.xerial/sqlite-jdbc "3.32.3.1"]
                  [ring/ring-core "1.8.0"]]
-  :ring {:handler boulouze.core/handler}
+  :ring {:handler boulouze-api.core/handler}
   :repl-options {:init-ns boulouze.core})

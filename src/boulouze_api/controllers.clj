@@ -1,7 +1,7 @@
-(ns boulouze.controllers
+(ns boulouze-api.controllers
   (:require
    [liberator.core :as liberator]
-   [boulouze.services.file :as file-service]))
+   [boulouze-api.services.file :as file-service]))
 
 (liberator/defresource welcome []
   :available-media-types ["text/html"]

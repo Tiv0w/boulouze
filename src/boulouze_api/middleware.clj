@@ -1,4 +1,4 @@
-(ns boulouze.middleware)
+(ns boulouze-api.middleware)
 
 (defn remove-trailing-slashes [handler]
   (fn [req]
