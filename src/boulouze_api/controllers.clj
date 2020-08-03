@@ -37,8 +37,10 @@
                    (nil? fichier)
                    (= "undefined" fichier))))
   :post! (fn [ctx]
-           (let [file (get-in ctx [:request :params "file"])]
-             (file-service/save-param-to-dir file "pics/" true)))
+           (let [file-param (get-in ctx [:request :params "file"])
+                 file (:tempfile file-param)
+                 filename (:filename file-param)]
+             (file-service/save-file-to-dir file "pics/" filename true)))
   :handle-method-not-allowed "Method should be a POST")
 
 (liberator/defresource list-files []

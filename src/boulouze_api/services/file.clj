@@ -7,14 +7,12 @@
    [cheshire.core :as cheshire]
    [clojure.java.io :as io]))
 
-
-(defn save-param-to-dir
+(defn save-file-to-dir
   "From a ring request file param, save the tempfile to the indicated directory."
-  ([file-param dir]
-   (save-param-to-dir file-param dir nil))
-  ([file-param dir save-to-db]
-   (let [in (:tempfile file-param)
-         filename (:filename file-param)
+  ([file dir filename]
+   (save-file-to-dir file dir filename false))
+  ([file dir filename save-to-db]
+   (let [in file
          out (io/file (str dir filename))]
      (utils.fs/copy in out true)
      (when (true? save-to-db)
