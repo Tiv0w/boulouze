@@ -32,10 +32,10 @@
   :available-media-types ["text/plain"]
   :allowed-methods [:post]
   :malformed? (fn [ctx]
-                (let [fichier (get-in ctx [:request :params "file"])]
+                (let [file (get-in ctx [:request :params "file"])]
                   (or
-                   (nil? fichier)
-                   (= "undefined" fichier))))
+                   (nil? file)
+                   (= "undefined" file))))
   :post! (fn [ctx]
            (let [file-param (get-in ctx [:request :params "file"])
                  file (:tempfile file-param)
