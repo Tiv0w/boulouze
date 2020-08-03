@@ -7,18 +7,21 @@
    [cheshire.core :as cheshire]
    [clojure.java.io :as io]))
 
-(defn save-file-to-dir
-  "From a ring request file param, save the tempfile to the indicated directory."
-  ([file dir filename]
-   (save-file-to-dir file dir filename false))
-  ([file dir filename save-to-db]
+(defn save-file
+  "Save a tempfile to the 'files' directory.
+  Optional parameter to control whether or not
+  an entry must be created in database as well."
+  ([file filename]
+   (save-file file filename false))
+  ([file filename save-to-db]
    (let [in file
-         out (io/file (str dir filename))]
+         output-path (str "files/" filename)
+         out (io/file output-path)]
      (utils.fs/copy in out true)
      (when (true? save-to-db)
        (db-service/execute ["INSERT INTO files (name, path) VALUES (?, ?)"
                             filename
-                            (str "pics/" filename)])))))
+                            output-path])))))
 
 (defn list-files
   "List all files saved in DB."
