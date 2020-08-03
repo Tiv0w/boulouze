@@ -1,17 +1,17 @@
 (ns boulouze-api.services.db
   "This service interacts with the database."
   (:require
+   [boulouze-api.utils.filesystem :as utils.fs]
    [clojure.java.io :as io]
    [clojure.java.shell :as shell]
-   [jdbc.core :as jdbc]
-   [boulouze-api.services.file :as file-service]))
+   [jdbc.core :as jdbc]))
 
 (defn project-db-path
   "Gets the path to the project's database."
   ([]
    (project-db-path "test.db"))
   ([db-name]
-   (let [root-dir (file-service/project-root-dir)
+   (let [root-dir (utils.fs/project-root-dir)
          root-end-with-slash? (.endsWith root-dir "/")
          db-relative-path (str "database/" db-name)
          db-relative-path-corrected (if root-end-with-slash?
