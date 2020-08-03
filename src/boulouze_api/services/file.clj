@@ -13,8 +13,8 @@
   ([file-param dir]
    (save-param-to-dir file-param dir nil))
   ([file-param dir save-to-db]
-   (let [in (get-in file-param [:tempfile])
-         filename (get-in file-param [:filename])
+   (let [in (:tempfile file-param)
+         filename (:filename file-param)
          out (io/file (str dir filename))]
      (utils.fs/copy in out true)
      (when (true? save-to-db)
