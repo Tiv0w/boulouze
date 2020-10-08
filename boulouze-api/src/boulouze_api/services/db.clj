@@ -53,3 +53,8 @@
   [statement & args]
   (with-open [conn (jdbc/connection dbspec)]
     (jdbc/execute conn [statement args])))
+
+(defn create-files-table
+  "Create a table in database."
+  []
+  (execute "CREATE TABLE [IF NOT EXISTS] files (name VARCHAR(255), path VARCHAR(255)"))
