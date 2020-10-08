@@ -40,7 +40,7 @@
            (let [file-param (get-in ctx [:request :params "file"])
                  file (:tempfile file-param)
                  filename (:filename file-param)]
-             (file-service/save-file-to-dir file filename true)))
+             (file-service/save-file file filename true)))
   :handle-method-not-allowed "Method should be a POST")
 
 (liberator/defresource list-files []
