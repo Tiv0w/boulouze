@@ -12,7 +12,9 @@
 
 (defn copy
   "Copy a file, preserving last modified time by default."
-  [from to & {:keys [preserve] :or {preserve true}}]
-  (let [from-file (io/file from)
-        to-file (io/file to)]
-    (FileUtils/copyFile from-file to-file preserve)))
+  ([from to]
+   (copy from to true))
+  ([from to preserve]
+   (let [from-file (io/file from)
+         to-file (io/file to)]
+     (FileUtils/copyFile from-file to-file preserve))))
