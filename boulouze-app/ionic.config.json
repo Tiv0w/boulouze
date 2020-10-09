@@ -1,0 +1,7 @@
+{
+  "name": "projet-gaelle-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
