@@ -19,9 +19,15 @@
          out (io/file output-path)]
      (utils.fs/copy in out true)
      (when (true? save-to-db)
-       (db-service/execute ["INSERT INTO files (name, path) VALUES (?, ?)"
+       (db-service/execute ["INSERT INTO files (name, path) VALUES (?, ?);"
                             filename
                             output-path])))))
+
+(defn last-saved-file
+  "Returns the id of the last entry in table `files`."
+  []
+  (let [res (db-service/fetch "SELECT id FROM files ORDER BY id DESC LIMIT 1;")]
+    (first res)))
 
 (defn list-files
   "List all files saved in DB."

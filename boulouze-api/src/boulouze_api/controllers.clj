@@ -1,7 +1,9 @@
 (ns boulouze-api.controllers
   (:require
-   [liberator.core :as liberator]
-   [boulouze-api.services.file :as file-service]))
+   [boulouze-api.services.file :as file-service]
+   [boulouze-api.services.product :as product-service]
+   [cheshire.core :as cheshire]
+   [liberator.core :as liberator]))
 
 (liberator/defresource welcome []
   :available-media-types ["text/html"]
@@ -29,7 +31,7 @@
   :handle-malformed "We could not process your request, it seems like the parameter \"name\" was omitted.")
 
 (liberator/defresource upload-file []
-  :available-media-types ["text/plain"]
+  :available-media-types ["application/json" "text/plain"]
   :allowed-methods [:post]
   :malformed? (fn [ctx]
                 (let [file (get-in ctx [:request :params "file"])]
@@ -41,15 +43,42 @@
                  file (:tempfile file-param)
                  filename (:filename file-param)]
              (file-service/save-file file filename true)))
+  :handle-created (fn [_] (cheshire/generate-string (file-service/last-saved-file)))
+  :handle-method-not-allowed "Method should be a POST")
+
+(liberator/defresource post-product []
+  :available-media-types ["application/json" "text/plain"]
+  :allowed-methods [:post]
+  :malformed? (fn [ctx]
+                (let [body-params (get-in ctx [:request :body])
+                      fileid (:fileId body-params)
+                      name (:name body-params)
+                      price (:price body-params)
+                      description (:description body-params)
+                      combined-params [fileid name price description]]
+                  (some? (some (fn [param]
+                                 (or
+                                  (nil? param)
+                                  (= "undefined" param)))
+                               combined-params))))
+  :post! (fn [ctx]
+           (let [body (get-in ctx [:request :body])]
+             (product-service/save-product body)))
   :handle-method-not-allowed "Method should be a POST")
 
 (liberator/defresource list-files []
   :available-media-types ["text/plain"]
   :allowed-methods [:get]
   :handle-ok (file-service/list-files)
-  :handle-method-not-allowed "Method should be a POST")
+  :handle-method-not-allowed "Method should be a GET")
 
-(liberator/defresource list []
+(liberator/defresource list-products []
+  :available-media-types ["application/json" "text/plain"]
+  :allowed-methods [:get]
+  :handle-ok (product-service/list-products)
+  :handle-method-not-allowed "Method should be a GET")
+
+(liberator/defresource list-images []
   :available-media-types ["text/html"]
   :handle-ok (clojure.java.io/file "resources/public/list-images.html"))
 

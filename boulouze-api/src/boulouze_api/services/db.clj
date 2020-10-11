@@ -55,6 +55,11 @@
     (jdbc/execute conn [statement args])))
 
 (defn create-files-table
-  "Create a table in database."
+  "Create the files table in database."
   []
-  (execute "CREATE TABLE [IF NOT EXISTS] files (name VARCHAR(255), path VARCHAR(255)"))
+  (execute "CREATE TABLE IF NOT EXISTS files (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), path VARCHAR(255));"))
+
+(defn create-products-table
+  "Create the products table in database."
+  []
+  (execute "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), price VARCHAR(255) NULL, description VARCHAR(255) NULL, fileId INTEGER, FOREIGN KEY (fileId) REFERENCES files (id));"))
