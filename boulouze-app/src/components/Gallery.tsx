@@ -3,6 +3,7 @@ import axios from 'axios';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IonGrid, IonImg, IonRow, IonCol, withIonLifeCycle, IonCardContent, IonCard } from '@ionic/react';
+import './Gallery.css';
 
 type Props = {};
 type State = { imagesList: string[] }
@@ -44,8 +45,8 @@ class Gallery extends React.Component<Props, State> {
             <IonRow>
               { this.state.imagesList.map((img: string, index: number) => 
                   
-                      <IonCol size="2">
-                          <IonCard key={index}>
+                      <IonCol size="3">
+                          <IonCard className="img-container" key={index}>
                                   <IonCardContent>
                                       <IonImg src={img} />
                                   </IonCardContent>
