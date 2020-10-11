@@ -5,42 +5,82 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 type Props = {};
-type State = { fileUploaded: any, imagePreviewUrl: any}
+type State = { fileUploaded: any, fileId: string, imagePreviewUrl: any, name: string, price: string, description: string }
 export class FileUpload extends React.Component<Props, State> {
     constructor(props: any) {
       super(props);
       this.state = {
+        name: "",
+        price: "",
+        description: "",
+        fileId: "",
         fileUploaded: {},
         imagePreviewUrl: ''
       };
 
-      this.handleChange = this.handleChange.bind(this)
+      this.handleFileChange = this.handleFileChange.bind(this)
+      this.handleNameChange = this.handleNameChange.bind(this)
+      this.handlePriceChange = this.handlePriceChange.bind(this)
+      this.handleDescriptionChange = this.handleDescriptionChange.bind(this)
       this.handleSubmit = this.handleSubmit.bind(this)
+      this.postProductData = this.postProductData.bind(this)
     }
 
-    handleChange(event: any) {
-        // console.log(event.target)
-        // this.setState({fileUploaded: event.target.files[0]})
+    handleFileChange(event: any) {
+      let reader = new FileReader();
+      let file = event.target.files[0];
 
-    let reader = new FileReader();
-    let file = event.target.files[0];
+      reader.onloadend = () => {
+        this.setState({
+          fileUploaded: file,
+          imagePreviewUrl: reader.result
+        });
+      }
+      reader.readAsDataURL(file)
+    }
 
-    reader.onloadend = () => {
+    handleNameChange(event: any) {
+        this.setState({
+          name: event.target.value
+        });
+    }
+
+    handlePriceChange(event: any) {
       this.setState({
-        fileUploaded: file,
-        imagePreviewUrl: reader.result
+        price: event.target.value
       });
     }
 
-    reader.readAsDataURL(file)
+    handleDescriptionChange(event: any) {
+      this.setState({
+        description: event.target.value
+      });
     }
 
     handleSubmit(event: any) {
       event.preventDefault()
       const formData = new FormData()
       formData.append('file', this.state.fileUploaded)
-      console.log(formData);
+      console.log(this.state)
       axios.post("http://localhost:3000/upload-file", formData)
+      .then((res: any) => {
+        this.setState({
+          name: res.data.id
+        });
+        this.postProductData();
+      })
+      .catch((err: any) => {
+          console.log(err);
+      })
+    }
+
+    postProductData() {
+      axios.post("http://localhost:3000/post-product", { 
+        fileId: this.state.fileId, 
+        name: this.state.name, 
+        price: this.state.price, 
+        description: this.state.description
+      })
       .then((res: any) => {
           console.log(res);
       })
@@ -56,21 +96,39 @@ export class FileUpload extends React.Component<Props, State> {
       }
       return (
       <form onSubmit={this.handleSubmit}>
-        <div className="file">
-        <label className="file-label">
-          Name:
-          <input className="file-input" type="file" onChange={this.handleChange} /> 
-          <span className="file-cta">
-      <span className="file-icon">
-        <i className="fas fa-upload"></i>
-      </span>
-      <span className="file-label">
-        Choose a file…
-      </span>
-    </span>       
-        </label>
+        <div className="field">
+          <label className="label">Nom du produit</label>
+          <div className="control">
+            <input className="input" type="text" placeholder="Text input" name="name" onChange={this.handleNameChange} />
+          </div>
         </div>
-        {$imagePreview}
+        <div className="field">
+          <label className="label">Prix</label>
+          <div className="control">
+            <input className="input" type="text" placeholder="Text input" name="price" onChange={this.handlePriceChange} />
+          </div>
+        </div>
+        <div className="field">
+          <label className="label">Description</label>
+          <div className="control">
+            <textarea className="textarea" placeholder="Textarea" name="description" onChange={this.handleDescriptionChange}></textarea>
+          </div>
+        </div>
+        <div className="file">
+          <label className="file-label">
+              <input className="file-input" type="file" onChange={this.handleFileChange} /> 
+              <span className="file-cta">
+                <span className="file-icon">
+                  <i className="fas fa-upload"></i>
+                </span>
+                <span className="file-label">
+                  Choose a file…
+                </span>
+              </span>
+              <span className="file-name">file.name…</span>       
+          </label>
+          </div>
+          {$imagePreview}
         <button className="button is-primary" type="submit">Upload</button>
       </form>
       );
