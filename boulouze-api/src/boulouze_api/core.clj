@@ -16,6 +16,7 @@
   (GET "/wtf" [] (resources/wtf))
   (GET "/yes" [] (resources/yes-sir))
   (ANY "/upload-file" [] (resources/upload-file))
+  (ANY "/post-product" [] (resources/post-product))
   (GET "/list-files" [] (resources/list-files))
   (GET "/list" [] (resources/list-images))
   (GET "/get-image" [] (resources/get-image))
