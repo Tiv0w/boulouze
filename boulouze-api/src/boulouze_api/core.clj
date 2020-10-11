@@ -15,7 +15,7 @@
   (GET "/yes" [] (resources/yes-sir))
   (ANY "/upload-file" [] (resources/upload-file))
   (GET "/list-files" [] (resources/list-files))
-  (GET "/list" [] (resources/list))
+  (GET "/list" [] (resources/list-images))
   (GET "/get-image" [] (resources/get-image))
   ;; (GET "/favicon.ico" [] (favicon))
   (ANY "*" [] (resources/not-found))

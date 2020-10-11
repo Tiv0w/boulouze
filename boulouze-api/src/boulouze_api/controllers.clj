@@ -51,7 +51,7 @@
   :handle-ok (file-service/list-files)
   :handle-method-not-allowed "Method should be a POST")
 
-(liberator/defresource list []
+(liberator/defresource list-images []
   :available-media-types ["text/html"]
   :handle-ok (clojure.java.io/file "resources/public/list-images.html"))
 
