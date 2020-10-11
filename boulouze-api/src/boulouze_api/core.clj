@@ -4,6 +4,7 @@
    [jumblerg.middleware.cors :refer [wrap-cors]]
    [boulouze-api.controllers :as resources]
    [boulouze-api.middleware :as middleware]
+   [ring.middleware.json :refer [wrap-json-body]]
    [ring.middleware.multipart-params :refer [wrap-multipart-params]]
    [ring.middleware.params :refer [wrap-params]]
    [ring.middleware.reload :refer [wrap-reload]]
@@ -28,5 +29,6 @@
       (wrap-resource "public")
       (wrap-cors identity)
       wrap-params
+      (wrap-json-body {:keywords? true})
       wrap-reload ;; FIXME: remove this in production!!!
       wrap-multipart-params))
