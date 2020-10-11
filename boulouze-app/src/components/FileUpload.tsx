@@ -3,6 +3,7 @@ import axios from 'axios';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import 'react-bulma-components/dist/react-bulma-components.min.css';
+import './FileUpload.css';
 
 type Props = {};
 type State = { fileUploaded: any, fileId: number, imagePreviewUrl: any, name: string, price: string, description: string }
@@ -95,26 +96,27 @@ export class FileUpload extends React.Component<Props, State> {
         $imagePreview = (<img src={this.state.imagePreviewUrl} alt="What you uploaded."/>);
       }
       return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="field">
+      <div id="main-div">
+        <form onSubmit={this.handleSubmit}>
+        <div className="field column is-half">
           <label className="label">Nom du produit</label>
           <div className="control">
             <input className="input" type="text" placeholder="Text input" name="name" onChange={this.handleNameChange} />
           </div>
         </div>
-        <div className="field">
+        <div className="field column is-half">
           <label className="label">Prix</label>
           <div className="control">
             <input className="input" type="text" placeholder="Text input" name="price" onChange={this.handlePriceChange} />
           </div>
         </div>
-        <div className="field">
+        <div className="field column is-half">
           <label className="label">Description</label>
           <div className="control">
             <textarea className="textarea" placeholder="Textarea" name="description" onChange={this.handleDescriptionChange}></textarea>
           </div>
         </div>
-        <div className="file">
+        <div className="file column is-half">
           <label className="file-label">
               <input className="file-input" type="file" onChange={this.handleFileChange} /> 
               <span className="file-cta">
@@ -122,15 +124,21 @@ export class FileUpload extends React.Component<Props, State> {
                   <i className="fas fa-upload"></i>
                 </span>
                 <span className="file-label">
-                  Choose a file…
+                  Choisir un fichier...
                 </span>
               </span>
-              <span className="file-name">file.name…</span>       
+              <span className="file-name">Nom du fichier</span>       
           </label>
           </div>
-          {$imagePreview}
-        <button className="button is-primary" type="submit">Upload</button>
-      </form>
+          <div className="column is-half">
+            {$imagePreview}
+          </div>
+          <div className="column is-half">
+            <button className="button is-primary" type="submit">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+      
       );
     }
   }
