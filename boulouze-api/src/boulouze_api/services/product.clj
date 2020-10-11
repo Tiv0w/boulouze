@@ -1,15 +1,14 @@
 (ns boulouze-api.services.product
-  "This service interacts with files and the filesystem.
-  It provides a cp-like command."
+  "This service manages products."
   (:require
    [boulouze-api.services.db :as db-service]))
 
 (defn save-product
-  "Save a product in db."
+  "Save a new product in DB."
   [product]
   (db-service/execute
    ["INSERT INTO products (name, price, description, fileId) VALUES (?, ?, ?, ?);"
     (:name product)
     (:price product)
     (:description product)
-    (:fileid product)]))
+    (:fileId product)]))
