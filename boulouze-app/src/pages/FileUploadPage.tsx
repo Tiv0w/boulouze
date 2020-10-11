@@ -1,9 +1,9 @@
-import './Tab1.css';
+import './FileUploadPage.css';
 import React, { useState } from 'react';
 import { FileUpload } from '../components/FileUpload'
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, withIonLifeCycle } from '@ionic/react';
 
-const Tab1: React.FC = () => {
+const FileUploadPage: React.FC = () => {
 
   return (
     <IonPage>
@@ -12,12 +12,11 @@ const Tab1: React.FC = () => {
           <IonTitle>Enregistrer un produit</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <FileUpload />
       <IonContent>
-     
+        <FileUpload />
       </IonContent>
     </IonPage>
   );
 };
 
-export default Tab1;
+export default FileUploadPage;
