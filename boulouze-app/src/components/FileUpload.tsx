@@ -65,7 +65,7 @@ export class FileUpload extends React.Component<Props, State> {
       axios.post("http://localhost:3000/upload-file", formData)
       .then((res: any) => {
         this.setState({
-          name: res.data.id
+          fileId: res.data.id
         });
         this.postProductData();
       })
