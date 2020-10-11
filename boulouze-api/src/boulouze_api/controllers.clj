@@ -70,7 +70,13 @@
   :available-media-types ["text/plain"]
   :allowed-methods [:get]
   :handle-ok (file-service/list-files)
-  :handle-method-not-allowed "Method should be a POST")
+  :handle-method-not-allowed "Method should be a GET")
+
+(liberator/defresource list-products []
+  :available-media-types ["application/json" "text/plain"]
+  :allowed-methods [:get]
+  :handle-ok (product-service/list-products)
+  :handle-method-not-allowed "Method should be a GET")
 
 (liberator/defresource list-images []
   :available-media-types ["text/html"]

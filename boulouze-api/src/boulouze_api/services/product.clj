@@ -12,3 +12,8 @@
     (:price product)
     (:description product)
     (:fileId product)]))
+
+(defn list-products
+  "List all products saved in DB."
+  []
+  (db-service/fetch "SELECT * FROM products"))
