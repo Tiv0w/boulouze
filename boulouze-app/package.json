@@ -41,7 +41,17 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "overrides": [
+      {
+        "files": [
+          "*.tsx"
+        ],
+        "rules": {
+          "@typescript-eslint/no-unused-expressions": "warn"
+        }
+      }
+    ]
   },
   "browserslist": {
     "production": [
@@ -57,6 +67,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "2.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
     "react-scripts": "3.4.1"
   },
   "description": "An Ionic project"

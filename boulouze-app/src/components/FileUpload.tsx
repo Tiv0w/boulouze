@@ -41,12 +41,12 @@ export class FileUpload extends React.Component<Props, State> {
       formData.append('file', this.state.fileUploaded)
       console.log(formData);
       axios.post("http://localhost:3000/upload-file", formData)
-      .then((res: any) => {
-          console.log(res);
-      })
-      .catch((err: any) => {
-          console.log(err);
-      })
+        .then((res: any) => {
+            console.log(res);
+        })
+        .catch((err: any) => {
+            console.log(err);
+        })
     }
   
     render() {
