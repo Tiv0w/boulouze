@@ -62,4 +62,4 @@
 (defn create-products-table
   "Create the products table in database."
   []
-  (execute "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), price VARCHAR(255) NULL, fileId INTEGER, FOREIGN KEY (fileId) REFERENCES files (id));"))
+  (execute "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), price VARCHAR(255) NULL, description VARCHAR(255) NULL, fileId INTEGER, FOREIGN KEY (fileId) REFERENCES files (id));"))
