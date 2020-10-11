@@ -13,3 +13,4 @@ pom.xml.asc
 /pics/
 /database/
 .clj-kondo/.cache/
+/files/
