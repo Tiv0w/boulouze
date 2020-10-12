@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 type Props = {};
-type State = { fileUploaded: any, fileId: string, imagePreviewUrl: any, name: string, price: string, description: string }
+type State = { fileUploaded: any, fileId: number, imagePreviewUrl: any, name: string, price: string, description: string }
 export class FileUpload extends React.Component<Props, State> {
     constructor(props: any) {
       super(props);
@@ -13,7 +13,7 @@ export class FileUpload extends React.Component<Props, State> {
         name: "",
         price: "",
         description: "",
-        fileId: "",
+        fileId: -1,
         fileUploaded: {},
         imagePreviewUrl: ''
       };
