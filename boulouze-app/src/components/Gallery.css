@@ -2,7 +2,8 @@
     height: 350px;
 }
 
-ion-img {
+.gallery-product-img {
     height: 170px;
     width: auto;
+    object-fit: cover;
 }
