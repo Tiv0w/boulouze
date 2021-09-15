@@ -21,4 +21,4 @@
   :profiles {:uberjar {:aot :all
                        :main boulouze-api.core}}
   :ring {:handler boulouze-api.core/handler}
-  :repl-options {:init-ns boulouze.core})
+  :repl-options {:init-ns boulouze-api.core})
