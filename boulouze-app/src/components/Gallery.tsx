@@ -1,6 +1,20 @@
 import React from 'react';
 import axios from 'axios';
-import { IonGrid, IonImg, IonRow, IonCol, withIonLifeCycle, IonCardContent, IonCard, IonCardHeader, IonCardTitle } from '@ionic/react';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonFab,
+  IonFabButton,
+  IonGrid,
+  IonIcon,
+  IonImg,
+  IonRow,
+  withIonLifeCycle,
+} from '@ionic/react';
+import { pencil } from 'ionicons/icons';
 import './Gallery.css';
 
 type Product = {
@@ -72,6 +86,15 @@ class Gallery extends React.Component<Props, State> {
           {this.state.productsList.map((product, index) =>
             <IonCol sizeLg="4" size="12" key={index}>
               <IonCard key={index}>
+                <IonFab vertical="top" horizontal="end">
+                  <IonFabButton
+                    className="gallery-card-fab-button"
+                    size="small"
+                    color="light"
+                  >
+                    <IonIcon icon={pencil} />
+                  </IonFabButton>
+                </IonFab>
                 <IonImg
                   className="gallery-product-img"
                   src={this.state.imagesList[product.fileid]}

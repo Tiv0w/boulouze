@@ -1,17 +1,21 @@
-import React from 'react';
-import './ExploreContainer.css';
+import React, { useEffect } from 'react';
+import './Product.css';
 
 interface ContainerProps {
-  name: string;
+  setProduct: Function;
 }
 
-const ExploreContainer: React.FC<ContainerProps> = ({ name }) => {
+const Product: React.FC<ContainerProps> = ({ setProduct }) => {
+  useEffect(() => {
+    setProduct({ name: 'Belette' });
+  }, [setProduct]);
+
   return (
     <div className="container">
-      <strong>{name}</strong>
+      <strong>Yes</strong>
       <p>Explore <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
     </div>
   );
 };
 
-export default ExploreContainer;
+export default Product;

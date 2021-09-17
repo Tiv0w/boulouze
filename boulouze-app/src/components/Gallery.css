@@ -7,3 +7,9 @@
     width: auto;
     object-fit: cover;
 }
+
+.gallery-card-fab-button {
+    position: relative;
+    left: 12px;
+    top: -12px;
+}
