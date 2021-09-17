@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "projet-gaelle-app",
+  "appName": "boulouze-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
