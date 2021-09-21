@@ -1,7 +1,8 @@
 (ns boulouze-api.services.product
   "This service manages products."
   (:require
-   [boulouze-api.services.db :as db-service]))
+   [boulouze-api.services.db :as db-service]
+   [clojure.set :refer [rename-keys]]))
 
 (defn save-product
   "Save a new product in DB."
@@ -16,4 +17,5 @@
 (defn list-products
   "List all products saved in DB."
   []
-  (db-service/fetch "SELECT * FROM products"))
+  (map #(rename-keys % {:fileid :fileId})
+     (db-service/fetch "SELECT * FROM products")))

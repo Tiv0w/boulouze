@@ -16,14 +16,8 @@ import {
 } from '@ionic/react';
 import { pencil } from 'ionicons/icons';
 import './Gallery.css';
+import { Product } from '../types/Product';
 
-type Product = {
-  id: number,
-  name: string,
-  price: number,
-  description: string,
-  fileid: number
-};
 type Props = {};
 type State = { imagesList: any, productsList: Product[] }
 class Gallery extends React.Component<Props, State> {
