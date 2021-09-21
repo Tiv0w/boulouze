@@ -17,6 +17,8 @@ import {
 import { pencil } from 'ionicons/icons';
 import './Gallery.css';
 import { Product } from '../types/Product';
+import useStore from '../store';
+
 
 type Props = {};
 type State = { imagesList: any, productsList: Product[] }
@@ -27,7 +29,7 @@ class Gallery extends React.Component<Props, State> {
       imagesList: {},
       productsList: []
     };
-
+    this.setProduct = useStore(state => state.setProduct);
     this.getImagesList = this.getImagesList.bind(this);
   }
 
@@ -40,6 +42,14 @@ class Gallery extends React.Component<Props, State> {
     this.getImagesList();
     this.getProductsList();
   }
+
+  setProduct(_: Product) { }
+
+  editProduct(product: Product) {
+    console.log(product);
+    this.setProduct(product);
+  }
+
 
   getProductsList() {
     axios.get('http://localhost:3000/list-products')
@@ -82,6 +92,7 @@ class Gallery extends React.Component<Props, State> {
               <IonCard key={index}>
                 <IonFab vertical="top" horizontal="end">
                   <IonFabButton
+                    onClick={() => this.editProduct(product)}
                     className="gallery-card-fab-button"
                     size="small"
                     color="light"
@@ -91,7 +102,7 @@ class Gallery extends React.Component<Props, State> {
                 </IonFab>
                 <IonImg
                   className="gallery-product-img"
-                  src={this.state.imagesList[product.fileid]}
+                  src={this.state.imagesList[product.fileId]}
                 />
                 <IonCardHeader>
                   <IonCardTitle>{product.name}</IonCardTitle>

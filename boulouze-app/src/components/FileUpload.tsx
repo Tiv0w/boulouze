@@ -3,20 +3,37 @@ import axios from 'axios';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './FileUpload.css';
 import { IonImg } from '@ionic/react';
+import { Product } from '../types/Product';
 
-type Props = { handleFinish: any, submitClicked: boolean };
-type State = { fileUploaded: any, fileId: number, imagePreviewUrl: any, name: string, price: string, description: string }
+
+type Props = {
+  product: Product | null,
+  handleFinish: any,
+  submitClicked: boolean
+};
+type State = {
+  id?: number,
+  fileUploaded: any,
+  fileId: number,
+  imagePreviewUrl: any,
+  name: string,
+  price: number,
+  description: string
+};
 export class FileUpload extends React.Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       name: "",
-      price: "",
+      price: 0,
       description: "",
       fileId: -1,
       fileUploaded: {},
       imagePreviewUrl: ''
     };
+    if (props.product) {
+      this.state = { ...this.state, ...props.product };
+    }
 
     this.handleFileChange = this.handleFileChange.bind(this)
     this.handleNameChange = this.handleNameChange.bind(this)
