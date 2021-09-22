@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
   IonCard,
@@ -12,7 +12,7 @@ import {
   IonIcon,
   IonImg,
   IonRow,
-  withIonLifeCycle,
+  useIonViewWillEnter,
 } from '@ionic/react';
 import { pencil } from 'ionicons/icons';
 import './Gallery.css';
@@ -21,102 +21,82 @@ import useStore from '../store';
 
 
 type Props = {};
-type State = { imagesList: any, productsList: Product[] }
-class Gallery extends React.Component<Props, State> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      imagesList: {},
-      productsList: []
-    };
-    this.setProduct = useStore(state => state.setProduct);
-    this.getImagesList = this.getImagesList.bind(this);
-  }
+const Gallery: React.FC<Props> = () => {
+  const [imagesList, setImagesList] = useState<{ [index: number]: string }>({});
+  const [productsList, setProductsList] = useState<Product[]>([]);
+  const setProduct: ((_: Product) => void) = useStore(state => state.setProduct);
 
-  componentDidMount() {
-    this.getImagesList();
-    this.getProductsList();
-  }
+  useIonViewWillEnter(() => {
+    getImagesList();
+    getProductsList();
+  });
 
-  ionViewWillEnter() {
-    this.getImagesList();
-    this.getProductsList();
-  }
-
-  setProduct(_: Product) { }
-
-  editProduct(product: Product) {
+  const editProduct = (product: Product) => {
     console.log(product);
-    this.setProduct(product);
-  }
+    setProduct(product);
+  };
 
-
-  getProductsList() {
+  const getProductsList = () => {
     axios.get('http://localhost:3000/list-products')
       .then((response) => {
-        this.setState({
-          productsList: response.data
-        })
-        console.log(this.state);
+        setProductsList(response.data)
+        console.log('productsList:', productsList);
       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
-  }
+  };
 
-  getImagesList() {
+  const getImagesList = () => {
     axios.get('http://localhost:3000/list-files')
       .then((response) => {
-        this.setState({
-          imagesList: Object.fromEntries(
-            response.data.map((file: any) =>
-              [file.id, 'http://localhost:3000/get-image?path=' + file.path]
-            )
-          )
-        })
-        console.log(this.state);
+        setImagesList(
+          Object.fromEntries(response.data.map((file: any) =>
+            [file.id, 'http://localhost:3000/get-image?path=' + file.path]
+          ))
+        )
+        console.log(imagesList);
       })
       .catch((error) => {
         // handle error
         console.log(error);
       });
-  }
+  };
 
-  render() {
-    return (
-      <IonGrid>
-        <IonRow>
-          {this.state.productsList.map((product, index) =>
-            <IonCol sizeLg="4" size="12" key={index}>
-              <IonCard key={index}>
-                <IonFab vertical="top" horizontal="end">
-                  <IonFabButton
-                    onClick={() => this.editProduct(product)}
-                    className="gallery-card-fab-button"
-                    size="small"
-                    color="light"
-                  >
-                    <IonIcon icon={pencil} />
-                  </IonFabButton>
-                </IonFab>
-                <IonImg
-                  className="gallery-product-img"
-                  src={this.state.imagesList[product.fileId]}
-                />
-                <IonCardHeader>
-                  <IonCardTitle>{product.name}</IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent>
-                  {product.description}
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-          )}
-        </IonRow>
-      </IonGrid>
-    );
-  }
-}
+  return (
+    <IonGrid>
+      <IonRow>
+        {productsList.map((product, index) =>
+          <IonCol sizeLg="4" size="12" key={index}>
+            <IonCard key={index}>
+              <IonFab vertical="top" horizontal="end">
+                <IonFabButton
+                  onClick={() => editProduct(product)}
+                  className="gallery-card-fab-button"
+                  size="small"
+                  color="light"
+                >
+                  <IonIcon icon={pencil} />
+                </IonFabButton>
+              </IonFab>
+              <IonImg
+                className="gallery-product-img"
+                src={imagesList[product.fileId]}
+              />
+              <IonCardHeader>
+                <IonCardTitle>{product.name}</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                {product.description}
+              </IonCardContent>
+            </IonCard>
+          </IonCol>
+        )}
+      </IonRow>
+    </IonGrid >
+  );
+};
 
-export default withIonLifeCycle(Gallery);
+
+export default Gallery;
