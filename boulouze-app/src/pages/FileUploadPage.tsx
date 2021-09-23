@@ -1,7 +1,7 @@
 import './FileUploadPage.css';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import { FileUpload } from '../components/FileUpload'
+import FileUpload from '../components/FileUpload';
 import {
   IonContent,
   IonFab,
@@ -23,19 +23,19 @@ type Props = {
   product?: Product
 };
 const FileUploadPage: React.FC<Props> = () => {
-  const [submitClicked, clickSubmit] = useState(false);
+  const [submitClicked, setSubmitClicked] = useState(false);
   const [displayToast] = useIonToast();
   const history = useHistory();
   const product = useStore(state => state.product);
 
   function handleFinish() {
-    clickSubmit(false);
+    setSubmitClicked(false);
     displayToast('Votre produit a bien été enregistré !', 3000);
     history.push('/tab2');
   };
 
   function handleSubmit() {
-    clickSubmit(true);
+    setSubmitClicked(true);
   };
 
   return (
@@ -47,7 +47,7 @@ const FileUploadPage: React.FC<Props> = () => {
       </IonHeader>
       <IonContent>
         <FileUpload
-          product={product}
+          // product={product}
           handleFinish={handleFinish}
           submitClicked={submitClicked}
         />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import axios from 'axios';
 import {
   IonCard,
@@ -22,6 +23,7 @@ import useStore from '../store';
 
 type Props = {};
 const Gallery: React.FC<Props> = () => {
+  const history = useHistory();
   const [imagesList, setImagesList] = useState<{ [index: number]: string }>({});
   const [productsList, setProductsList] = useState<Product[]>([]);
   const setProduct: ((_: Product) => void) = useStore(state => state.setProduct);
@@ -34,6 +36,7 @@ const Gallery: React.FC<Props> = () => {
   const editProduct = (product: Product) => {
     console.log(product);
     setProduct(product);
+    history.push('/tab1');
   };
 
   const getProductsList = () => {
