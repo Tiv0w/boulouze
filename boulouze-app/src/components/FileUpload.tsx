@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './FileUpload.css';
-import { IonImg, IonInput, IonLabel } from '@ionic/react';
+import { IonImg, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
 import { Product } from '../types/Product';
 import useStore from '../store';
 
@@ -15,7 +15,7 @@ type Props = {
 const FileUpload: React.FC<Props> = (props: Props) => {
   const product = useStore(state => state.product);
   const [name, setName] = useState<string>(product?.name || '');
-  const [price, setPrice] = useState<number>(product?.price || 0);
+  const [price, setPrice] = useState<number | null>(product?.price || null);
   const [description, setDescription] = useState<string>(product?.description || '');
   const [fileId, setFileId] = useState<number>(product?.fileId || -1);
   const [fileUploaded, setFileUploaded] = useState<any>({});
@@ -118,32 +118,39 @@ const FileUpload: React.FC<Props> = (props: Props) => {
   return (
     <div id="main-div">
       <form onSubmit={handleSubmit}>
-        <div className="field column is-half">
-          <label className="label">Nom du produit</label>
-          <div className="control">
-            <IonLabel className="label">Nom du produit</IonLabel>
-            <IonInput
-              // className="input"
-              value={name}
-              type="text"
-              placeholder="Nom du produit"
-              name="name"
-              onIonChange={handleNameChange}
-            />
-          </div>
-        </div>
-        <div className="field column is-half">
-          <label className="label">Prix</label>
-          <div className="control">
-            <input className="input" type="text" placeholder="Prix" name="price" onChange={handlePriceChange} />
-          </div>
-        </div>
-        <div className="field column is-half">
-          <label className="label">Description</label>
-          <div className="control">
-            <textarea className="textarea" placeholder="Description" name="description" onChange={handleDescriptionChange}></textarea>
-          </div>
-        </div>
+        <IonItem>
+          <IonLabel // className="label"
+            position="floating">Nom du produit</IonLabel>
+          <IonInput
+            // className="input"
+            value={name}
+            type="text"
+            placeholder="Nom du produit"
+            name="name"
+            onIonChange={handleNameChange}
+          />
+        </IonItem>
+        <IonItem>
+          <IonLabel position="floating">Prix</IonLabel>
+          <IonInput
+            value={price}
+            type="number"
+            placeholder="prix"
+            name="price"
+            onChange={handlePriceChange}
+          />
+        </IonItem>
+        <IonItem>
+          <IonLabel position="floating">Description</IonLabel>
+          <IonTextarea
+            value={description}
+            autoGrow
+            placeholder="Description"
+            name="description"
+            onChange={handleDescriptionChange}
+          />
+        </IonItem>
+
         <div className="file column is-half">
           <label className="file-label">
             <input className="file-input" type="file" onChange={handleFileChange} />
