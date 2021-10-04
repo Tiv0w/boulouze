@@ -1,176 +1,163 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './FileUpload.css';
 import { IonImg, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
-import { Product } from '../types/Product';
 import useStore from '../store';
 
 
 type Props = {
-  // product: Product | null,
-  handleFinish: any,
-  submitClicked: boolean
+    handleFinish: any,
+    handleBadRequest: any,
+    submitClicked: boolean
 };
 const FileUpload: React.FC<Props> = (props: Props) => {
-  const product = useStore(state => state.product);
-  const [name, setName] = useState<string>(product?.name || '');
-  const [price, setPrice] = useState<number | null>(product?.price || null);
-  const [description, setDescription] = useState<string>(product?.description || '');
-  const [fileId, setFileId] = useState<number>(product?.fileId || -1);
-  const [fileUploaded, setFileUploaded] = useState<any>({});
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<any>('');
+    const product = useStore(state => state.product);
+    const [name, setName] = useState<string>(product?.name || '');
+    const [price, setPrice] = useState<number | null>(product?.price || null);
+    const [description, setDescription] = useState<string>(product?.description || '');
+    const [fileId, setFileId] = useState<number>(product?.fileId || -1);
+    const [fileUploaded, setFileUploaded] = useState<any>({});
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<any>('');
 
 
-  // if (props.product) {
-  //   setName(props.product.name);
-  //   setPrice(props.product.price);
-  //   setDescription(props.product.description);
-  //   setFileId(props.product.fileId);
-  // }
+    useEffect(() => {
+        if (product) {
+            console.log(product);
+            setName(product.name);
+            setPrice(product.price);
+            setDescription(product.description);
+            setFileId(product.fileId);
+        }
+    }, [product, name]);
 
-  useEffect(() => {
-    if (product) {
-      console.log(product);
-      setName(product.name);
-      setPrice(product.price);
-      setDescription(product.description);
-      setFileId(product.fileId);
-      // console.log(name);
+
+    const postProductData = useCallback(() => {
+        axios.post("http://localhost:3000/post-product", {
+            fileId,
+            name,
+            price,
+            description,
+        })
+            .then((res: any) => {
+                if (res.status === 201)
+                    props.handleFinish();
+            })
+            .catch((err: any) => {
+                if (err.response.status === 400)
+                    props.handleBadRequest();
+            });
+    }, [fileId, name, price, description, props]);
+
+
+    const handleSubmit = useCallback(() => {
+        const formData = new FormData();
+        formData.append('file', fileUploaded);
+        axios.post("http://localhost:3000/upload-file", formData)
+            .then((res: any) => {
+                setFileId(res.data.id);
+                postProductData();
+            })
+            .catch((err: any) => {
+                console.log(err);
+            });
+    }, [fileUploaded, postProductData]);
+
+    useEffect(() => {
+        if (props.submitClicked) {
+            handleSubmit();
+        }
+    }, [props.submitClicked, handleSubmit]);
+
+
+    function handleFileChange(event: any) {
+        let reader = new FileReader();
+        let file = event.target.files[0];
+
+        reader.onloadend = () => {
+            setFileUploaded(file);
+            setImagePreviewUrl(reader.result);
+        }
+        reader.readAsDataURL(file);
+
+        console.log(file);
     }
-  }, [product, name]);
 
-
-  useEffect(() => {
-    if (props.submitClicked) {
-      handleSubmit();
+    function handleNameChange(event: any) {
+        setName(event.detail.value);
     }
-  }, [props.submitClicked, handleSubmit]);
 
-
-  // useEffect(() => {
-  //   if (props.submitClicked) {
-  //     handleSubmit();
-  //   }
-  // }, [props.submitClicked]);
-
-  function handleFileChange(event: any) {
-    let reader = new FileReader();
-    let file = event.target.files[0];
-
-    reader.onloadend = () => {
-      setFileUploaded(file);
-      setImagePreviewUrl(reader.result);
+    function handlePriceChange(event: any) {
+        setPrice(event.target.value);
     }
-    reader.readAsDataURL(file);
 
-    console.log(file);
-  }
+    function handleDescriptionChange(event: any) {
+        setDescription(event.target.value);
+    }
 
-  function handleNameChange(event: any) {
-    // console.log(event);
-    setName(event.detail.value);
-  }
+    return (
+        <div id="main-div">
+            <form>
+                <IonItem>
+                    <IonLabel // className="label"
+                        position="floating">Nom du produit</IonLabel>
+                    <IonInput
+                        // className="input"
+                        value={name}
+                        type="text"
+                        placeholder="Nom du produit"
+                        name="name"
+                        onIonChange={handleNameChange}
+                    />
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Prix</IonLabel>
+                    <IonInput
+                        value={price}
+                        type="number"
+                        placeholder="prix"
+                        name="price"
+                        onIonChange={handlePriceChange}
+                    />
+                </IonItem>
+                <IonItem>
+                    <IonLabel position="floating">Description</IonLabel>
+                    <IonTextarea
+                        value={description}
+                        autoGrow
+                        placeholder="Description"
+                        name="description"
+                        onIonChange={handleDescriptionChange}
+                    />
+                </IonItem>
 
-  function handlePriceChange(event: any) {
-    setPrice(event.target.value);
-  }
-
-  function handleDescriptionChange(event: any) {
-    setDescription(event.target.value);
-  }
-
-  function handleSubmit() {
-    const formData = new FormData()
-    formData.append('file', fileUploaded)
-    // console.log(this.state)
-    axios.post("http://localhost:3000/upload-file", formData)
-      .then((res: any) => {
-        setFileId(res.data.id);
-        postProductData();
-      })
-      .catch((err: any) => {
-        console.log(err);
-      })
-  }
-
-  function postProductData() {
-    axios.post("http://localhost:3000/post-product", {
-      fileId,
-      name,
-      price,
-      description,
-    })
-      .then((res: any) => {
-        if (res.status === 201)
-          props.handleFinish();
-        console.log(res);
-      })
-      .catch((err: any) => {
-        console.log(err);
-      })
-  }
-
-  let $imagePreview = null;
-  if (imagePreviewUrl) {
-    $imagePreview = (<IonImg src={imagePreviewUrl} alt="What you uploaded." />);
-  }
-  return (
-    <div id="main-div">
-      <form onSubmit={handleSubmit}>
-        <IonItem>
-          <IonLabel // className="label"
-            position="floating">Nom du produit</IonLabel>
-          <IonInput
-            // className="input"
-            value={name}
-            type="text"
-            placeholder="Nom du produit"
-            name="name"
-            onIonChange={handleNameChange}
-          />
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Prix</IonLabel>
-          <IonInput
-            value={price}
-            type="number"
-            placeholder="prix"
-            name="price"
-            onChange={handlePriceChange}
-          />
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Description</IonLabel>
-          <IonTextarea
-            value={description}
-            autoGrow
-            placeholder="Description"
-            name="description"
-            onChange={handleDescriptionChange}
-          />
-        </IonItem>
-
-        <div className="file column is-half">
-          <label className="file-label">
-            <input className="file-input" type="file" onChange={handleFileChange} />
-            <span className="file-cta">
-              <span className="file-icon">
-                <i className="fas fa-upload"></i>
-              </span>
-              <span className="file-label">
-                Choisir un fichier...
-                </span>
-            </span>
-            <span className="file-name">{fileUploaded.name || "Nom du fichier"}</span>
-          </label>
+                <div className="file column is-half">
+                    <label className="file-label">
+                        <input
+                            className="file-input"
+                            type="file"
+                            onChange={handleFileChange}
+                        />
+                        <span className="file-cta">
+                            <span className="file-icon">
+                                <i className="fas fa-upload"></i>
+                            </span>
+                            <span className="file-label">Choisir un fichier...</span>
+                        </span>
+                        <span className="file-name">
+                            {fileUploaded.name || "Nom du fichier"}
+                        </span>
+                    </label>
+                </div>
+                {
+                    imagePreviewUrl ?
+                        (<div className="column">
+                            <IonImg src={imagePreviewUrl} alt="What you uploaded." />
+                        </div>) : null
+                }
+            </form>
         </div>
-        <div className="column">
-          {$imagePreview}
-        </div>
-      </form>
-    </div>
-  );
+    );
 }
 
 export default FileUpload;
