@@ -1,7 +1,7 @@
 import './GalleryPage.css';
-import React, { useState } from 'react';
-import Gallery  from '../components/Gallery'
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, withIonLifeCycle } from '@ionic/react';
+import React from 'react';
+import Gallery from '../components/Gallery'
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 
 const GalleryPage: React.FC = () => {
 
@@ -9,7 +9,7 @@ const GalleryPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Enregistrer un produit</IonTitle>
+          <IonTitle>Gallerie</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

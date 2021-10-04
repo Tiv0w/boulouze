@@ -2,7 +2,14 @@
     height: 350px;
 }
 
-ion-img {
+.gallery-product-img {
     height: 170px;
     width: auto;
+    object-fit: cover;
+}
+
+.gallery-card-fab-button {
+    position: relative;
+    left: 12px;
+    top: -12px;
 }

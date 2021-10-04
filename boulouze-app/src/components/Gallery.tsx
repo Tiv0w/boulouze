@@ -1,65 +1,105 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import axios from 'axios';
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IonGrid, IonImg, IonRow, IonCol, withIonLifeCycle, IonCardContent, IonCard, IonCardHeader, IonCardTitle } from '@ionic/react';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonFab,
+  IonFabButton,
+  IonGrid,
+  IonIcon,
+  IonImg,
+  IonRow,
+  useIonViewWillEnter,
+} from '@ionic/react';
+import { pencil } from 'ionicons/icons';
 import './Gallery.css';
+import { Product } from '../types/Product';
+import useStore from '../store';
+
 
 type Props = {};
-type State = { imagesList: string[] }
-class Gallery extends React.Component<Props, State> {
-    constructor(props: any) {
-      super(props);
-      this.state = {
-        imagesList: []
-      };
+const Gallery: React.FC<Props> = () => {
+  const history = useHistory();
+  const [imagesList, setImagesList] = useState<{ [index: number]: string }>({});
+  const [productsList, setProductsList] = useState<Product[]>([]);
+  const setProduct: ((_: Product) => void) = useStore(state => state.setProduct);
 
-      this.getImagesList = this.getImagesList.bind(this);
-    }
+  useIonViewWillEnter(() => {
+    getImagesList();
+    getProductsList();
+  });
 
-    componentDidMount() {
-      this.getImagesList();
-    }
+  const editProduct = (product: Product) => {
+    console.log(product);
+    setProduct(product);
+    history.push('/tab1');
+  };
 
-    ionViewWillEnter() {
-      this.getImagesList();
-      console.log('ion view lalal');
-    }
+  const getProductsList = () => {
+    axios.get('http://localhost:3000/list-products')
+      .then((response) => {
+        setProductsList(response.data)
+        console.log('productsList:', productsList);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  };
 
-    getImagesList() {
-      axios.get('http://localhost:3000/list-files')
-        .then((response) => {
-          this.setState({
-            imagesList: response.data.map((file: any) => 'http://localhost:3000/get-image?path=' + file.path)
-          })
-        })
-        .catch((error) => {
-          // handle error
-          console.log(error);
-        });
-    }
-  
-    render() {
-      return (
-          <IonGrid>
-            <IonRow>
-              { this.state.imagesList.map((img: string, index: number) => 
-                      <IonCol size="2">
-                          <IonCard key={index}>
-                            <IonCardHeader>
-                              <IonImg src={img} />
-                              <IonCardTitle>Card Title</IonCardTitle>
-                            </IonCardHeader>
-                            <IonCardContent>
-                              Blabla
-                            </IonCardContent>
-                          </IonCard>
-                      </IonCol>
-              )}
-              </IonRow>
-        </IonGrid>   
-      );
-    }
-}
-  
-export default withIonLifeCycle(Gallery);
+  const getImagesList = () => {
+    axios.get('http://localhost:3000/list-files')
+      .then((response) => {
+        setImagesList(
+          Object.fromEntries(response.data.map((file: any) =>
+            [file.id, 'http://localhost:3000/get-image?path=' + file.path]
+          ))
+        )
+        console.log(imagesList);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      });
+  };
+
+  return (
+    <IonGrid>
+      <IonRow>
+        {productsList.map((product, index) =>
+          <IonCol sizeLg="4" size="12" key={index}>
+            <IonCard key={index}>
+              <IonFab vertical="top" horizontal="end">
+                <IonFabButton
+                  onClick={() => editProduct(product)}
+                  className="gallery-card-fab-button"
+                  size="small"
+                  color="light"
+                >
+                  <IonIcon icon={pencil} />
+                </IonFabButton>
+              </IonFab>
+              <IonImg
+                className="gallery-product-img"
+                src={imagesList[product.fileId]}
+              />
+              <IonCardHeader>
+                <IonCardTitle>{product.name}</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                {product.description}
+              </IonCardContent>
+            </IonCard>
+          </IonCol>
+        )}
+      </IonRow>
+    </IonGrid >
+  );
+};
+
+
+export default Gallery;

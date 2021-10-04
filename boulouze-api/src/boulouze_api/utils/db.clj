@@ -31,7 +31,7 @@
 (defn create-products-table
   "Creates the products table in database."
   [conn]
-  (jdbc/execute conn "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), price VARCHAR(255) NULL, description VARCHAR(255) NULL, fileId INTEGER, FOREIGN KEY (fileId) REFERENCES files (id));"))
+  (jdbc/execute conn "CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(255), price INTEGER NULL, description VARCHAR(255) NULL, fileId INTEGER, FOREIGN KEY (fileId) REFERENCES files (id));"))
 
 (defn create-db-if-not-existing
   "Creates the database if it doesn't exists."

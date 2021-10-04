@@ -6,3 +6,7 @@ img {
   max-width: 150px;
   max-height: 150px;
 }
+
+.file-upload-fab-button {
+    margin-right: 10px;
+}
