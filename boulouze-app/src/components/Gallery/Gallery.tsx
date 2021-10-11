@@ -18,8 +18,8 @@ import {
 } from '@ionic/react';
 import { pencil } from 'ionicons/icons';
 import './Gallery.css';
-import { Product } from '../types/Product';
-import useStore from '../store';
+import { Product } from '../../types/Product';
+import useStore from '../../store';
 
 interface Image {
     id: number,

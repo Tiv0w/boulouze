@@ -11,9 +11,9 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
-import FileUploadPage from './pages/FileUploadPage';
-import GalleryPage from './pages/GalleryPage';
-import ProductShowcase from './pages/ProductShowcase';
+import FileUploadPage from './pages/FileUploadPage/FileUploadPage';
+import GalleryPage from './pages/GalleryPage/GalleryPage';
+import ProductShowcase from './pages/ProductShowcasePage/ProductShowcase';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';

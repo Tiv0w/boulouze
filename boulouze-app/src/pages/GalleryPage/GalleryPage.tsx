@@ -1,6 +1,6 @@
 import './GalleryPage.css';
 import React from 'react';
-import Gallery from '../components/Gallery'
+import Gallery from '../../components/Gallery/Gallery'
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 
 const GalleryPage: React.FC = () => {
