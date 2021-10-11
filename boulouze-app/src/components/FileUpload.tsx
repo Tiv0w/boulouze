@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './FileUpload.css';
 import { IonImg, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
 import useStore from '../store';
@@ -131,21 +130,15 @@ const FileUpload: React.FC<Props> = (props: Props) => {
                     />
                 </IonItem>
 
-                <div className="file column is-half">
-                    <label className="file-label">
-                        <input
-                            className="file-input"
-                            type="file"
-                            onChange={handleFileChange}
-                        />
-                        <span className="file-cta">
-                            <span className="file-icon">
-                                <i className="fas fa-upload"></i>
-                            </span>
-                            <span className="file-label">Choisir un fichier...</span>
-                        </span>
-                        <span className="file-name">
-                            {fileUploaded.name || "Nom du fichier"}
+                <div className="file-input-container">
+                    <label>
+                        <input id="file-input" type="file" onChange={handleFileChange} />
+                        <div className="file-button">
+                        <span>Choisir un fichier</span>
+                        </div>
+                        <span className="file-name">{
+                            (fileUploaded?.name?.length > 20 ? fileUploaded.name.slice(0, 19) + "…" : fileUploaded.name) 
+                            || "Nom du fichier"}
                         </span>
                     </label>
                 </div>
