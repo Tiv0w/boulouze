@@ -2,7 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import './FileUpload.css';
 import { IonImg, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
-import useStore from '../store';
+import useStore from '../../store';
+import FileInput from '../FileInput/FileInput';
 
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
     handleBadRequest: any,
     submitClicked: boolean
 };
+
 const FileUpload: React.FC<Props> = (props: Props) => {
     const product = useStore(state => state.product);
     const [name, setName] = useState<string>(product?.name || '');
@@ -130,18 +132,7 @@ const FileUpload: React.FC<Props> = (props: Props) => {
                     />
                 </IonItem>
 
-                <div className="file-input-container">
-                    <label>
-                        <input id="file-input" type="file" onChange={handleFileChange} />
-                        <div className="file-button">
-                        <span>Choisir un fichier</span>
-                        </div>
-                        <span className="file-name">{
-                            (fileUploaded?.name?.length > 20 ? fileUploaded.name.slice(0, 19) + "…" : fileUploaded.name) 
-                            || "Nom du fichier"}
-                        </span>
-                    </label>
-                </div>
+                <FileInput handleFileChange={handleFileChange} fileUploadedName={fileUploaded?.name} />
                 {
                     imagePreviewUrl ?
                         (<div className="column">

@@ -1,7 +1,7 @@
 import './FileUploadPage.css';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import FileUpload from '../components/FileUpload';
+import FileUpload from '../../components/FileUpload/FileUpload';
 import {
     IonContent,
     IonFab,
@@ -15,8 +15,8 @@ import {
     useIonToast,
 } from '@ionic/react';
 import { add } from 'ionicons/icons';
-import { Product } from '../types/Product';
-import useStore from '../store';
+import { Product } from '../../types/Product';
+import useStore from '../../store';
 
 
 type Props = {

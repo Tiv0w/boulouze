@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import Product from '../components/Product';
+import Product from '../../components/Product/Product';
 import './ProductShowcase.css';
 
 

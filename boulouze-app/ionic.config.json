@@ -3,6 +3,5 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "react",
-  "app_id": ""
+  "type": "react"
 }
