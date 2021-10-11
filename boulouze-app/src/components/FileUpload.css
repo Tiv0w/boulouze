@@ -10,7 +10,7 @@
     background-color: #eeeeee;
     border-radius: 7px;
     padding: 3px;
-    max-width: 270px;
+    display: inline-block;
 }
   
 .file-button {
@@ -25,9 +25,6 @@
 .file-name {
     padding-left: 10px;
     padding-right: 10px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
 input[type="file"] {

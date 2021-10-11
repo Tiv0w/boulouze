@@ -136,7 +136,10 @@ const FileUpload: React.FC<Props> = (props: Props) => {
                         <div className="file-button">
                         <span>Choisir un fichier</span>
                         </div>
-                        <span className="file-name">{fileUploaded.name || "Nom du fichier"}</span>
+                        <span className="file-name">{
+                            (fileUploaded?.name?.length > 20 ? fileUploaded.name.slice(0, 19) + "…" : fileUploaded.name) 
+                            || "Nom du fichier"}
+                        </span>
                     </label>
                 </div>
                 {
