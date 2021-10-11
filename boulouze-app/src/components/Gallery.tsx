@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import {
+    IonButton,
     IonCard,
     IonCardContent,
     IonCardHeader,
@@ -73,36 +74,49 @@ const Gallery: React.FC<Props> = () => {
     };
 
     return (
-        <IonGrid>
-            <IonRow>
-                {productsList.map((product, index) =>
-                    <IonCol sizeLg="4" size="12" key={index}>
-                        <IonCard key={index}>
-                            <IonFab vertical="top" horizontal="end">
-                                <IonFabButton
-                                    onClick={() => editProduct(product)}
-                                    className="gallery-card-fab-button"
-                                    size="small"
-                                    color="light"
-                                >
-                                    <IonIcon icon={pencil} />
-                                </IonFabButton>
-                            </IonFab>
-                            <IonImg
-                                className="gallery-product-img"
-                                src={imagesList[product.fileId]}
-                            />
-                            <IonCardHeader>
-                                <IonCardTitle>{product.name}</IonCardTitle>
-                            </IonCardHeader>
-                            <IonCardContent>
-                                {product.description}
-                            </IonCardContent>
-                        </IonCard>
-                    </IonCol>
-                )}
-            </IonRow>
-        </IonGrid >
+        <div className="fullsize">
+            {   !(productsList.length > 0) 
+            ? 
+                <div className="no-items-container">
+                    <IonImg className="filler-img" src="assets/images/blank_canvas.svg" alt="Girl looking at a blank canvas." />
+                    <p className="no-items-text">No products found.</p>
+                    <IonButton onClick={() =>  history.push('/tab1')}>Add one</IonButton>
+                </div>
+            : 
+                <IonGrid>
+                    <IonRow>
+                        {productsList.map((product, index) =>
+                            <IonCol sizeLg="4" size="12" key={index}>
+                                <IonCard key={index}>
+                                    <IonFab vertical="top" horizontal="end">
+                                        <IonFabButton
+                                            onClick={() => editProduct(product)}
+                                            className="gallery-card-fab-button"
+                                            size="small"
+                                            color="light"
+                                        >
+                                            <IonIcon icon={pencil} />
+                                        </IonFabButton>
+                                    </IonFab>
+                                    <IonImg
+                                        className="gallery-product-img"
+                                        src={imagesList[product.fileId]}
+                                    />
+                                    <IonCardHeader>
+                                        <IonCardTitle>{product.name}</IonCardTitle>
+                                    </IonCardHeader>
+                                    <IonCardContent>
+                                        {product.description}
+                                    </IonCardContent>
+                                </IonCard>
+                            </IonCol>
+                        )}
+                    </IonRow>
+                </IonGrid>
+        }
+        </div>
+        
+        
     );
 };
 
