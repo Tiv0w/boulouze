@@ -7,12 +7,13 @@ import FileInput from '../FileInput/FileInput';
 
 
 type Props = {
-    handleFinish: any,
-    handleBadRequest: any,
+    handleFinish: Function,
+    handleBadRequest: Function,
+    handleSubmitClicked: Function,
     submitClicked: boolean
 };
 
-const FileUpload: React.FC<Props> = (props: Props) => {
+const FileUpload: React.FC<Props> = ({ handleFinish, handleBadRequest, submitClicked, handleSubmitClicked }: Props) => {
     const product = useStore(state => state.product);
     const [name, setName] = useState<string>(product?.name || '');
     const [price, setPrice] = useState<number | null>(product?.price || null);
@@ -33,31 +34,30 @@ const FileUpload: React.FC<Props> = (props: Props) => {
     }, [product, name]);
 
 
-    const postProductData = useCallback(() => {
+    const postProductData = useCallback((newFileId) => {
         axios.post("http://localhost:3000/post-product", {
-            fileId,
+            fileId: newFileId,
             name,
             price,
             description,
         })
             .then((res: any) => {
                 if (res.status === 201)
-                    props.handleFinish();
+                    setFileId(newFileId);
+                    handleFinish();
             })
             .catch((err: any) => {
                 if (err.response.status === 400)
-                    props.handleBadRequest();
+                    handleBadRequest();
             });
-    }, [fileId, name, price, description, props]);
-
+    }, [name, price, description, handleFinish, handleBadRequest]);
 
     const handleSubmit = useCallback(() => {
         const formData = new FormData();
         formData.append('file', fileUploaded);
         axios.post("http://localhost:3000/upload-file", formData)
             .then((res: any) => {
-                setFileId(res.data.id);
-                postProductData();
+                postProductData(res.data.id);
             })
             .catch((err: any) => {
                 console.log(err);
@@ -65,10 +65,11 @@ const FileUpload: React.FC<Props> = (props: Props) => {
     }, [fileUploaded, postProductData]);
 
     useEffect(() => {
-        if (props.submitClicked) {
+        if (submitClicked) {
             handleSubmit();
+            handleSubmitClicked();
         }
-    }, [props.submitClicked, handleSubmit]);
+    }, [submitClicked, handleSubmitClicked, handleSubmit]);
 
 
     function handleFileChange(event: any) {
@@ -131,7 +132,6 @@ const FileUpload: React.FC<Props> = (props: Props) => {
                         onIonChange={handleDescriptionChange}
                     />
                 </IonItem>
-
                 <FileInput handleFileChange={handleFileChange} fileUploadedName={fileUploaded?.name} />
                 {
                     imagePreviewUrl ?
