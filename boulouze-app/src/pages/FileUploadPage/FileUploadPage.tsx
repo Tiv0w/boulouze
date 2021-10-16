@@ -28,6 +28,11 @@ const FileUploadPage: React.FC<Props> = () => {
     const history = useHistory();
     const product = useStore(state => state.product);
 
+
+    function handleSubmitClicked() {
+        setSubmitClicked(false);
+    }
+
     function handleFinish() {
         setSubmitClicked(false);
         // displayToast('Votre produit a bien été enregistré !', 3000);
@@ -65,6 +70,7 @@ const FileUploadPage: React.FC<Props> = () => {
                 <FileUpload
                     handleFinish={handleFinish}
                     handleBadRequest={handleBadRequest}
+                    handleSubmitClicked={handleSubmitClicked}
                     submitClicked={submitClicked}
                 />
             </IonContent>
