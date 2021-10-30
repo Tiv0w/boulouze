@@ -42,6 +42,8 @@ const FileUpload: React.FC<Props> = ({ handleFinish, handleBadRequest, submitCli
         setPrice(null);
         setDescription('');
         setFileId(-1);
+        setImagePreviewUrl('');
+        setFileUploaded({});
     }
 
     const postProductData = useCallback((newFileId) => {
