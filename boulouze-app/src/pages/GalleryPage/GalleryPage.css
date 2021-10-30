@@ -1,3 +1,7 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+
+.gallery-add-fab-button {
+    margin-right: 10px;
+}

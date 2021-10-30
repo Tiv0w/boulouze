@@ -75,7 +75,7 @@ const FileUploadPage: React.FC<Props> = () => {
                 />
             </IonContent>
             <IonFab vertical="bottom" horizontal="end">
-                <IonFabButton onClick={handleSubmit} className="file-upload-fab-button">
+                <IonFabButton onClick={handleSubmit} className="file-upload-fab-button" color="success">
                     {submitClicked ? <IonSpinner /> : <IonIcon icon={checkmark} />}
                 </IonFabButton>
             </IonFab>

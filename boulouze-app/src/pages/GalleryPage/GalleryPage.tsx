@@ -1,7 +1,17 @@
 import './GalleryPage.css';
 import React from 'react';
 import Gallery from '../../components/Gallery/Gallery'
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {
+    IonContent,
+    IonFab,
+    IonFabButton,
+    IonHeader,
+    IonIcon,
+    IonPage,
+    IonTitle,
+    IonToolbar
+} from '@ionic/react';
+import { add } from 'ionicons/icons';
 
 const GalleryPage: React.FC = () => {
 
@@ -15,6 +25,11 @@ const GalleryPage: React.FC = () => {
       <IonContent>
         <Gallery />
       </IonContent>
+      <IonFab vertical="bottom" horizontal="end">
+        <IonFabButton routerLink="/tab1" className="gallery-add-fab-button">
+          <IonIcon icon={add} />
+        </IonFabButton>
+      </IonFab>
     </IonPage>
   );
 };
