@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import './FileUpload.css';
-import { IonImg, IonInput, IonItem, IonLabel, IonTextarea } from '@ionic/react';
+import { IonImg, IonInput, IonItem, IonLabel, IonTextarea, useIonViewDidLeave } from '@ionic/react';
 import useStore from '../../store';
 import FileInput from '../FileInput/FileInput';
-
 
 type Props = {
     handleFinish: Function,
@@ -15,6 +14,7 @@ type Props = {
 
 const FileUpload: React.FC<Props> = ({ handleFinish, handleBadRequest, submitClicked, handleSubmitClicked }: Props) => {
     const product = useStore(state => state.product);
+    const clearProduct = useStore(state => state.clearProduct);
     const [name, setName] = useState<string>(product?.name || '');
     const [price, setPrice] = useState<number | null>(product?.price || null);
     const [description, setDescription] = useState<string>(product?.description || '');
@@ -22,6 +22,10 @@ const FileUpload: React.FC<Props> = ({ handleFinish, handleBadRequest, submitCli
     const [fileUploaded, setFileUploaded] = useState<any>({});
     const [imagePreviewUrl, setImagePreviewUrl] = useState<any>('');
 
+    useIonViewDidLeave(() => {
+        clearProduct();
+        flushState();
+    });
 
     useEffect(() => {
         if (product) {
@@ -33,6 +37,12 @@ const FileUpload: React.FC<Props> = ({ handleFinish, handleBadRequest, submitCli
         }
     }, [product, name]);
 
+    const flushState = () => {
+        setName('');
+        setPrice(null);
+        setDescription('');
+        setFileId(-1);
+    }
 
     const postProductData = useCallback((newFileId) => {
         axios.post("http://localhost:3000/post-product", {

@@ -14,7 +14,7 @@ import {
     IonSpinner,
     useIonToast,
 } from '@ionic/react';
-import { add } from 'ionicons/icons';
+import { checkmark } from 'ionicons/icons';
 import { Product } from '../../types/Product';
 import useStore from '../../store';
 
@@ -76,7 +76,7 @@ const FileUploadPage: React.FC<Props> = () => {
             </IonContent>
             <IonFab vertical="bottom" horizontal="end">
                 <IonFabButton onClick={handleSubmit} className="file-upload-fab-button">
-                    {submitClicked ? <IonSpinner /> : <IonIcon icon={add} />}
+                    {submitClicked ? <IonSpinner /> : <IonIcon icon={checkmark} />}
                 </IonFabButton>
             </IonFab>
         </IonPage>
