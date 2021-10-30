@@ -1,7 +1,7 @@
 .file-input-container {
     margin-top: 10px;
     margin-bottom: 10px;
-    font-family: "Roboto";
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
     border-radius: 7px;
     padding: 3px;
     display: inline-block;
