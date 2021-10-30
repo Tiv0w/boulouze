@@ -42,7 +42,9 @@
            (let [file-param (get-in ctx [:request :params "file"])
                  file (:tempfile file-param)
                  filename (:filename file-param)]
-             (file-service/save-file file filename true)))
+             (when-not (or (nil? file)
+                          (= "undefined" file))
+               (file-service/save-file file filename true))))
   :handle-created (fn [_] (cheshire/generate-string (file-service/last-saved-file)))
   :handle-method-not-allowed "Method should be a POST")
 
