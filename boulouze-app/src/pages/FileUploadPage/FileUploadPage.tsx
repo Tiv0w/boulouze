@@ -40,6 +40,7 @@ const FileUploadPage: React.FC<Props> = () => {
             message: 'Votre produit a bien été enregistré !',
             duration: 3000,
             color: 'success',
+            buttons: [{ icon: 'close', role: 'cancel' }],
         });
         history.push('/tab2');
     };
@@ -50,6 +51,7 @@ const FileUploadPage: React.FC<Props> = () => {
             message: 'Une erreur s\'est produite lors de l\'enregistrement.',
             duration: 6000,
             color: 'danger',
+            buttons: [{ icon: 'close', role: 'cancel' }],
         });
     };
 
@@ -75,7 +77,7 @@ const FileUploadPage: React.FC<Props> = () => {
                 />
             </IonContent>
             <IonFab vertical="bottom" horizontal="end">
-                <IonFabButton onClick={handleSubmit} className="file-upload-fab-button">
+                <IonFabButton onClick={handleSubmit} className="file-upload-fab-button" color="success">
                     {submitClicked ? <IonSpinner /> : <IonIcon icon={checkmark} />}
                 </IonFabButton>
             </IonFab>
